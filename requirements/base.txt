@@ -1,5 +1,6 @@
 Django==1.8a1
 bpython==0.13
+chorddb==0.0.2
 django-braces==1.4.0
 django-model-utils==2.0.3
 logutils==0.3.3
