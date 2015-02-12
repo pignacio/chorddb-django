@@ -3,6 +3,7 @@
 {% block page_title %}Songs{% endblock page_title %}
 
 {% block content %}
+<a href="{% url "song_song_add" %}" class="btn btn-primary pull-right">Add Song</a>
 {% if songs %}
 <ul>
   {% for song in songs %}
