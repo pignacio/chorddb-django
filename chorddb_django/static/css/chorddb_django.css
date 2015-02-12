@@ -1,1 +1,7 @@
-/*! project specific CSS goes here. */
+#tab .chord {
+  color: red;
+}
+
+#tab .fingering {
+  color: blue;
+}

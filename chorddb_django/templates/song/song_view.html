@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+{{ song.title }}, by {{ song.artist }}
+{% endblock page_title %}
+
+{% block content %}
+Instrument: {% crispy instrument_select_form %}
+<pre id='tab'>
+{% for line in lines %}{{line|safe}}
+{% endfor %}
+</pre>
+{% endblock content %}
+
+{% block extra_js %}
+<script language="javascript">
+$(document).ready(
+  $('#id_name').on('change', function(e) {
+    e.preventDefault();
+    window.location = "{% url 'song_song_view' song.id %}/" + $(this).val();
+  })
+)
+</script>
+{% endblock extra_js %}
+
+{# vim: set ft=htmldjango :#}

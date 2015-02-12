@@ -39,7 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">chorddb_django</a>
+          <a class="navbar-brand" href="{% url 'song_home' %}">chorddb_django</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -61,7 +61,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{% static 'js/jquery-1.11.2.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
     <!-- place project specific Javascript in this file -->

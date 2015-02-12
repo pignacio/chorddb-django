@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block page_title %}Home{% endblock page_title %}
+
+{% block content %}
+<ul class="nav nav-pills nav-stacked">
+  <li><a href="{% url "song_song_list" %}">Songs</a></li>
+</ul>
+{% endblock content %}
+
+{# vim: set ft=htmldjango :#}

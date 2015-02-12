@@ -194,6 +194,7 @@ DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'song',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -238,3 +239,23 @@ LOGGING = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 ########## END WSGI CONFIGURATION
+
+
+########## FLOPPYFORMS CONFIGURATION
+# See: http://django-floppyforms.readthedocs.org/en/latest/#installation
+INSTALLED_APPS += (
+    # Customizable forms and widgets:
+    'floppyforms',
+)
+########## END FLOPPYFORMS CONFIGURATION
+
+
+########## CRISPY FORMS CONFIGURATION
+# See: http://django-crispy-forms.readthedocs.org/en/latest/install.html#installation
+INSTALLED_APPS += (
+    # Forms layouts and Bootstrap themes:
+    'crispy_forms',
+)
+
+CRISPY_TEMPLATE_PACK= 'bootstrap3'
+########## END CRISPY FORMS CONFIGURATION
