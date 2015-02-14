@@ -34,6 +34,27 @@ class InstrumentSelectForm(forms.Form):
         self.helper.form_show_labels = False
 
 
+class CapoTransposeForm(forms.Form):
+    capo = forms.TypedChoiceField(
+        choices=[(n, "{}".format(n)) for n in xrange(13)],
+        coerce=int, empty_value=0, required=False, initial=0)
+    transpose = forms.TypedChoiceField(
+        choices=[(n, "{}".format(n)) for n in xrange(-12, 13)],
+        coerce=int, empty_value=0, required=False, initial=0)
+
+    EMPTY_DATA = {
+        'capo': 0,
+        'transpose': 0,
+    }
+
+    def __init__(self, *args, **kwargs):
+        super(CapoTransposeForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'form_capo_transpose'
+        self.helper.form_class = 'form-inline'
+        self.helper.disable_csrf = True
+
+
 class SongForm(forms.ModelForm):
     class Meta:
         model = Song
