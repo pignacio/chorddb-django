@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, FormView, DetailView, TemplateView
 
-from chorddb.tab.parser import parse_tablature
+from chorddb.tab import parse_tablature, transpose_tablature
 from chorddb.chords.library import ChordLibrary
 from chorddb.instrument import GUITAR, LOOG, UKELELE
 
-from .forms import InstrumentSelectForm, SongForm
+from .forms import InstrumentSelectForm, SongForm, CapoTransposeForm
 from .html_render import render_tablature
 from .models import Song
 
@@ -25,8 +25,10 @@ class SongListView(ListView):
     model = Song
 
 
-def _render_tablature(tablature, instrument):
+def _render_tablature(tablature, instrument, capo, transpose):
     tab = parse_tablature(tablature.splitlines())
+    tab = transpose_tablature(tab, transpose)
+    instrument = instrument.capo(capo)
     chords = set()
     for line in tab.lines:
         if line.type == 'chord':
@@ -50,8 +52,16 @@ class SongDetailView(DetailView):
         except KeyError:
             instrument = GUITAR
             instrument_name = 'guitar'
+        form_data = {k : self.request.GET.get(k, v)
+                     for k, v in CapoTransposeForm.EMPTY_DATA.items()}
+        capo_transpose_form = CapoTransposeForm(form_data)
+        data = (capo_transpose_form.cleaned_data
+                if capo_transpose_form.is_valid()
+                else CapoTransposeForm.EMPTY_DATA)
 
-        lines = _render_tablature(self.object.tablature, instrument)
+        lines = _render_tablature(self.object.tablature, instrument,
+                                  data['capo'],
+                                  data['transpose'])
 
         form = InstrumentSelectForm(initial={
             'name': instrument_name,
@@ -62,6 +72,7 @@ class SongDetailView(DetailView):
             'lines': lines,
             'instrument_name': instrument_name,
             'instrument_select_form': form,
+            'capo_transpose_form': capo_transpose_form,
         })
         return context
 

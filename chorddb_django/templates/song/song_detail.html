@@ -7,6 +7,7 @@
 
 {% block content %}
 Instrument: {% crispy instrument_select_form %}
+{% crispy capo_transpose_form %}
 <pre id='tab'>
 {% for line in lines %}{{line|safe}}
 {% endfor %}
@@ -15,12 +16,23 @@ Instrument: {% crispy instrument_select_form %}
 
 {% block extra_js %}
 <script language="javascript">
-$(document).ready(
+function reloadPage() {
+  url ="{% url 'song_song_view' song.id %}/" + $('#id_name').val();
+  url += "?" + $('#form_capo_transpose').serialize();
+  window.location = url;
+}
+
+$(document).ready(function() {
   $('#id_name').on('change', function(e) {
-    e.preventDefault();
-    window.location = "{% url 'song_song_view' song.id %}/" + $(this).val();
+    reloadPage();
   })
-)
+  $('#id_capo').on('change', function(e) {
+    reloadPage();
+  })
+  $('#id_transpose').on('change', function(e) {
+    reloadPage();
+  })
+});
 </script>
 {% endblock extra_js %}
 
