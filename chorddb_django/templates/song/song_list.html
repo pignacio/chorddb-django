@@ -4,15 +4,13 @@
 
 {% block content %}
 <a href="{% url "song_song_add" %}" class="btn btn-primary pull-right">Add Song</a>
-{% if songs %}
 <ul>
-  {% for song in songs %}
+  {% for song in object_list %}
   <li><a href="{% url "song_song_view" song.id %}">{{ song.title }}</a>, by {{ song.artist }}</li>
+  {% empty %}
+  <li> No songs :( </li>
   {% endfor %}
 </ul>
-{% else %}
-No songs :(
-{% endif %}
 
 {% endblock content %}
 {# vim: set ft=htmldjango :#}
