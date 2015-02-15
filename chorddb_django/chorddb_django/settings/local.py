@@ -1,4 +1,5 @@
 """Development settings and globals."""
+# pylint: disable=unused-wildcard-import,wildcard-import,line-too-long
 
 from __future__ import absolute_import
 

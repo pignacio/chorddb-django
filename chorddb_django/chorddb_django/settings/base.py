@@ -1,5 +1,5 @@
 """Common settings and globals."""
-
+# pylint: disable=unused-wildcard-import,wildcard-import,line-too-long
 
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
@@ -244,5 +244,5 @@ INSTALLED_APPS += (
     'crispy_forms',
 )
 
-CRISPY_TEMPLATE_PACK= 'bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 ########## END CRISPY FORMS CONFIGURATION
