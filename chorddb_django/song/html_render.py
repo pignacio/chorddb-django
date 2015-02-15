@@ -14,7 +14,8 @@ FingeredChord = collections.namedtuple('Fingeredchord', ['chord', 'fingering'])
 
 
 
-def render_tablature(tablature, chord_versions={}, debug=False):
+def render_tablature(tablature, chord_versions=None, debug=False):
+    chord_versions = chord_versions or {}
     res = []
     for line in tablature.lines:
         if line.type == 'chord':
@@ -25,7 +26,7 @@ def render_tablature(tablature, chord_versions={}, debug=False):
                 version = chord_versions.get(poschord.chord, None)
                 if version:
                     write_span_with_class(lip, "({})".format(version),
-                                         poschord.position, 'fingering')
+                                          poschord.position, 'fingering')
                 lip.write_at(" ", poschord.position)
             res.append(lip.getvalue())
         else:
@@ -33,7 +34,8 @@ def render_tablature(tablature, chord_versions={}, debug=False):
     return res
 
 def write_span_with_class(lip, text, position, style):
-    return lip.write_at(text, position, '<span class="{}">'.format(style), '</span>')
+    return lip.write_at(text, position, '<span class="{}">'.format(style),
+                        '</span>')
 
 
 
