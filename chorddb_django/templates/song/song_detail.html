@@ -1,39 +1,31 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags staticfiles %}
 
 {% block page_title %}
 {{ song.title }}, by {{ song.artist }}
 {% endblock page_title %}
 
 {% block content %}
-Instrument: {% crispy instrument_select_form %}
-{% crispy capo_transpose_form %}
-<pre id='tab'>
+<div class="row">
+  <div class="col-md-10 col-xs-8" id="tab">
+    <pre>
 {% for line in lines %}{{line|safe}}
 {% endfor %}
-</pre>
+    </pre>
+  </div>
+  <div class="col-md-2 col-xs-4">
+    Instrument: {% crispy instrument_select_form %}
+    {% crispy capo_transpose_form %}
+    <div id="selected-chord"></div>
+  </div>
+</div>
 {% endblock content %}
 
 {% block extra_js %}
 <script language="javascript">
-function reloadPage() {
-  url ="{% url 'song_song_view' song.id %}/" + $('#id_name').val();
-  url += "?" + $('#form_capo_transpose').serialize();
-  window.location = url;
-}
-
-$(document).ready(function() {
-  $('#id_name').on('change', function(e) {
-    reloadPage();
-  })
-  $('#id_capo').on('change', function(e) {
-    reloadPage();
-  })
-  $('#id_transpose').on('change', function(e) {
-    reloadPage();
-  })
-});
+var songUrl = "{{ song.get_absolute_url }}";
 </script>
+<script src="{% static "js/song/song_detail.js" %}"></script>
 {% endblock extra_js %}
 
 {# vim: set ft=htmldjango :#}
