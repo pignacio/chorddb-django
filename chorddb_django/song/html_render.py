@@ -21,13 +21,17 @@ def render_tablature(tablature, chord_versions=None, debug=False):
         if line.type == 'chord':
             lip = LineInProgress()
             for chord_index, poschord in enumerate(line.data.chords):
-                container_id = "chord-{}:{}".format(line_index, chord_index)
+                chord_id = "{}:{}".format(line_index, chord_index)
+                container_id = "chord-{}".format(chord_id)
                 lip.write_at('', poschord.position)
-                lip.hidden_write('<span id="{}" class="tab-chord" chord="{}">'
-                                 .format(container_id, poschord.chord.text()))
+                version = chord_versions.get(poschord.chord, None)
+                lip.hidden_write('<span id="{}" class="tab-chord" chord="{}" '
+                                 'fingering="{}" chord-id="{}">'.format(
+                                     container_id, poschord.chord.text(),
+                                     version if version else "",
+                                     chord_id))
                 write_span_with_class(lip, poschord.chord.text(),
                                       poschord.position, 'chord')
-                version = chord_versions.get(poschord.chord, None)
                 if version:
                     write_span_with_class(lip, "({})".format(version),
                                           poschord.position, 'fingering')
