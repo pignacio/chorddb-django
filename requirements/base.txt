@@ -4,6 +4,7 @@ chorddb==0.0.4
 django-braces==1.4.0
 django-crispy-forms==1.4.0
 django-floppyforms==1.3.0
+django-jsonfield==0.9.13
 django-model-utils==2.0.3
 django-toolbelt==0.0.1
 logutils==0.3.3

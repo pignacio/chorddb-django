@@ -14,18 +14,28 @@ FingeredChord = collections.namedtuple('Fingeredchord', ['chord', 'fingering'])
 
 
 
-def render_tablature(tablature, chord_versions={}, debug=False):
+def render_tablature(tablature, chord_versions=None, debug=False):
+    chord_versions = chord_versions or {}
     res = []
-    for line in tablature.lines:
+    for line_index, line in enumerate(tablature.lines):
         if line.type == 'chord':
             lip = LineInProgress()
-            for poschord in line.data.chords:
+            for chord_index, poschord in enumerate(line.data.chords):
+                chord_id = "{}_{}".format(line_index, chord_index)
+                container_id = "chord-{}".format(chord_id)
+                lip.write_at('', poschord.position)
+                version = chord_versions.get(poschord.chord, None)
+                lip.hidden_write('<span id="{}" class="tab-chord" chord="{}" '
+                                 'fingering="{}" chord-id="{}">'.format(
+                                     container_id, poschord.chord.text(),
+                                     version if version else "",
+                                     chord_id))
                 write_span_with_class(lip, poschord.chord.text(),
                                       poschord.position, 'chord')
-                version = chord_versions.get(poschord.chord, None)
                 if version:
                     write_span_with_class(lip, "({})".format(version),
-                                         poschord.position, 'fingering')
+                                          poschord.position, 'fingering')
+                lip.hidden_write("</span>")
                 lip.write_at(" ", poschord.position)
             res.append(lip.getvalue())
         else:
@@ -33,8 +43,8 @@ def render_tablature(tablature, chord_versions={}, debug=False):
     return res
 
 def write_span_with_class(lip, text, position, style):
-    return lip.write_at(text, position, '<span class="{}">'.format(style), '</span>')
-
+    return lip.write_at(text, position, '<span class="{}">'.format(style),
+                        '</span>')
 
 
 class LineInProgress(object):
@@ -50,7 +60,9 @@ class LineInProgress(object):
         self._string.write(text)
         self._string.write(wrap_right)
         self._size += len(text)
-        print "Write at: ", self._string.getvalue()
+
+    def hidden_write(self, text):
+        self._string.write(text)
 
     def getvalue(self):
         return self._string.getvalue()
