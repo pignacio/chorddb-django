@@ -94,7 +94,8 @@ class ChordVersionsForm(forms.Form):
         self._chords = chords
         for chord in chords:
             self.fields[self.field_id(chord)] = forms.CharField(
-                required=False, widget=forms.HiddenInput())
+                required=False, widget=forms.HiddenInput(),
+                initial=self.get_initial(chords, chord))
         self.helper = FormHelper()
         self.helper.form_id = 'form_chord_versions'
         self.helper.disable_csrf = True
@@ -102,6 +103,13 @@ class ChordVersionsForm(forms.Form):
     @staticmethod
     def field_id(chord):
         return 'chord_version_{}'.format(chord.text())
+
+    @staticmethod
+    def get_initial(chords, chord):
+        try:
+            return chords[chord]
+        except Exception:
+            return None
 
     def get_chord_versions(self):
         self.is_valid()
