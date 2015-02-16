@@ -1,6 +1,8 @@
 /* jshint browser: true, jquery: true */
 /* global songUrl,selectedChordPadUrl,chordVersions */
 
+var isModified = false;
+
 function leavePage(destination) {
   window.location = destination;
 }
@@ -70,6 +72,13 @@ function selectedChordNext(chordId) {
 
 function selectedChordPrev(chordId) {
   moveSelectedChord(chordId, -1);
+}
+
+function saveSongVersion() {
+  var url = songUrl + '/' + $('#id_name').val() + '/save/?';
+  url += $('#form_capo_transpose').serialize() + '&';
+  url += $('#form_chord_versions').serialize();
+  window.location = url;
 }
 
 $(document).ready(function() {
