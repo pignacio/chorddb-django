@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags staticfiles %}
 
 {% block page_title %}
 {{ song.title }}, by {{ song.artist }}
@@ -23,24 +23,9 @@
 
 {% block extra_js %}
 <script language="javascript">
-function reloadPage() {
-  url ="{% url 'song_song_view' song.id %}/" + $('#id_name').val();
-  url += "?" + $('#form_capo_transpose').serialize();
-  window.location = url;
-}
-
-$(document).ready(function() {
-  $('#id_name').on('change', function(e) {
-    reloadPage();
-  })
-  $('#id_capo').on('change', function(e) {
-    reloadPage();
-  })
-  $('#id_transpose').on('change', function(e) {
-    reloadPage();
-  })
-});
+var songUrl = "{{ song.get_absolute_url }}";
 </script>
+<script src="{% static "js/song/song_detail.js" %}"></script>
 {% endblock extra_js %}
 
 {# vim: set ft=htmldjango :#}

@@ -6,7 +6,7 @@
 <a href="{% url "song_song_add" %}" class="btn btn-primary pull-right">Add Song</a>
 <ul>
   {% for song in object_list %}
-  <li><a href="{% url "song_song_view" song.id %}">{{ song.title }}</a>, by {{ song.artist }}</li>
+  <li><a href="{{ song.get_absolute_url }}">{{ song.title }}</a>, by {{ song.artist }}</li>
   {% empty %}
   <li> No songs :( </li>
   {% endfor %}
