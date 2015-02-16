@@ -7,13 +7,13 @@
 
 {% block content %}
 <div class="row">
-  <div class="col-md-10 col-xs-8" id="tab">
+  <div class="col-md-9 col-xs-8" id="tab">
     <pre>
 {% for line in lines %}{{line|safe}}
 {% endfor %}
     </pre>
   </div>
-  <div class="col-md-2 col-xs-4">
+  <div class="col-md-3 col-xs-4">
     Instrument: {% crispy instrument_select_form %}
     {% crispy capo_transpose_form %}
     {% crispy chord_versions_form %}
