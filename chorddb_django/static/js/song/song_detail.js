@@ -10,6 +10,12 @@ function switchInstrument() {
   leavePage(url);
 }
 
+function switchVersion() {
+  var url = songUrl + '/' + $('#id_name').val();
+  url += '?' + $('#id_capo,#id_transpose').serialize();
+  leavePage(url);
+}
+
 function clearSelectedChord() {
     $('#selected-chord').text('');
     $('.tab-chord').removeClass('tab-chord-selected');
@@ -29,16 +35,16 @@ $(document).ready(function() {
     switchInstrument();
   });
   $('#id_capo').on('change', function() {
-    reloadTab();
+    switchVersion();
   });
   $('#id_transpose').on('change', function() {
-    reloadTab();
+    switchVersion();
   });
   $('.tab-chord').click(function() {
     clearSelectedChord();
     var selected = $(this);
-    $('#selected-chord').text(selected.attr('chord') + "(" +
-      selected.attr('fingering') +")");
+    $('#selected-chord').text(selected.attr('chord') + '(' +
+      selected.attr('fingering') +')');
     selected.addClass('tab-chord-selected');
   });
 });
