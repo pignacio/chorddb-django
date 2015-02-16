@@ -96,6 +96,10 @@ class SongVersionDetailView(DetailView):
             'capo': self.object.capo,
             'transpose': self.object.transpose,
         })
+        chord_versions_form = ChordVersionsForm({
+            c: self.object.chord_versions.get(c.text(), None)
+            for c in data.chord_versions
+        })
 
         context = super(SongVersionDetailView, self).get_context_data(**kwargs)
         context.update({
@@ -103,7 +107,7 @@ class SongVersionDetailView(DetailView):
             'instrument_name': self.object.instrument.name,
             'instrument_select_form': form,
             'capo_transpose_form': capo_transpose_form,
-            'chord_versions_form': ChordVersionsForm(data.chord_versions),
+            'chord_versions_form': chord_versions_form,
             'song': self.object.song,
             'chord_versions': json.dumps(
                 {k.text(): [str(v) for v in vv]
