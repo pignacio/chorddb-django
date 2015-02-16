@@ -1,5 +1,6 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# encoding: utf-8
+
 from __future__ import absolute_import, unicode_literals
 
 import logging
@@ -11,23 +12,20 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
 from crispy_forms.bootstrap import FormActions
 
-from .models import Song
+from .models import Song, InstrumentModel
 
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class InstrumentSelectForm(forms.Form):
-    _CHOICES = (
-        ('guitar', 'Lindsay'),
-        ('ukelele', 'Edi'),
-        ('loog', 'Mimí'),
-    )
-
-    name = forms.ChoiceField(choices=_CHOICES)
+    name = forms.ChoiceField()
 
     def __init__(self, *args, **kwargs):
         super(InstrumentSelectForm, self).__init__(*args, **kwargs)
+        self.fields['name'].choices = [
+            (i.name, i.name) for i in InstrumentModel.objects.all()
+        ]
         self.helper = FormHelper()
         self.helper.form_id = 'form_select_instrument'
         self.helper.form_class = 'form-inline'
