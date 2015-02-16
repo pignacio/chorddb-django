@@ -3,6 +3,8 @@ from __future__ import  unicode_literals
 from django.db import models
 from django.core.urlresolvers import reverse
 
+from jsonfield import JSONField
+
 from chorddb.instrument import GUITAR, LOOG, UKELELE
 
 
@@ -23,7 +25,7 @@ class SongVersion(models.Model):
     instrument = models.ForeignKey('InstrumentModel')
     capo = models.PositiveIntegerField(default=0)
     transpose = models.IntegerField(default=0)
-#      chord_versions = models.TextField() # Json or HStore
+    chord_versions = JSONField(default={}) # Json or HStore
 #      special_chords = models.TextField() # Json or Array<HStore>
 
     def __unicode__(self):

@@ -7,16 +7,22 @@
 
 {% block content %}
 <div class="row">
-  <div class="col-md-10 col-xs-8" id="tab">
+  <div class="col-md-9 col-xs-8" id="tab">
     <pre>
 {% for line in lines %}{{line|safe}}
 {% endfor %}
     </pre>
   </div>
-  <div class="col-md-2 col-xs-4">
+  <div class="col-md-3 col-xs-4">
     Instrument: {% crispy instrument_select_form %}
     {% crispy capo_transpose_form %}
+    {% crispy chord_versions_form %}
     <div id="selected-chord"></div>
+    <div id="save-warning" class="alert alert-warning" style="display:none; margin-top:10px; text-align:center;">
+      <span class="center-block glyphicon glyphicon-warning-sign"></span>
+      You have unsaved changes. <br/>
+      Click here to <a class="alert-link" href="javascript: saveSongVersion();">save them</a>
+    </div>
   </div>
 </div>
 {% endblock content %}
@@ -24,6 +30,8 @@
 {% block extra_js %}
 <script language="javascript">
 var songUrl = "{{ song.get_absolute_url }}";
+var selectedChordPadUrl = "{% url "song_selected_chord_pad" %}";
+var chordVersions = {{ chord_versions|safe }};
 </script>
 <script src="{% static "js/song/song_detail.js" %}"></script>
 {% endblock extra_js %}
