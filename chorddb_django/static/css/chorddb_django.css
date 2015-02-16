@@ -5,3 +5,10 @@
 #tab .fingering {
   color: blue;
 }
+
+#tab pre {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
+  font-size: 16px;
+}
