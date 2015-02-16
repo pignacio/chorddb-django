@@ -18,6 +18,11 @@
     {% crispy capo_transpose_form %}
     {% crispy chord_versions_form %}
     <div id="selected-chord"></div>
+    <div id="save-warning" class="alert alert-warning" style="display:none; margin-top:10px; text-align:center;">
+      <span class="center-block glyphicon glyphicon-warning-sign"></span>
+      You have unsaved changes. <br/>
+      Click here to <a class="alert-link" href="">save them</a>
+    </div>
   </div>
 </div>
 {% endblock content %}

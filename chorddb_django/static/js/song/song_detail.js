@@ -61,6 +61,7 @@ function moveSelectedChord(chordId, interval) {
   var newFingering = chordVersions[chord][newIndex];
   $('#id_chord_version_' + chord).val(newFingering);
   updateTab(chordId);
+  $('#save-warning').show();
 }
 
 function selectedChordNext(chordId) {
