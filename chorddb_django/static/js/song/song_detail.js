@@ -37,7 +37,8 @@ $(document).ready(function() {
   $('.tab-chord').click(function() {
     clearSelectedChord();
     var selected = $(this);
-    $('#selected-chord').text(selected.attr('chord'));
+    $('#selected-chord').text(selected.attr('chord') + "(" +
+      selected.attr('fingering') +")");
     selected.addClass('tab-chord-selected');
   });
 });
