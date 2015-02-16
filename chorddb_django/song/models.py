@@ -1,6 +1,9 @@
 from __future__ import  unicode_literals
+
 from django.db import models
 from django.core.urlresolvers import reverse
+
+from chorddb.instrument import GUITAR, LOOG, UKELELE
 
 
 class Song(models.Model):
@@ -34,5 +37,10 @@ class InstrumentModel(models.Model):
     name = models.CharField(max_length=255)
     definition = models.CharField(max_length=255)
 
+    _NAMED_INSTRUMENTS = {i.name: i for i in [GUITAR, LOOG, UKELELE]}
+
     def __unicode__(self):
         return "InstrumentModel: {s.name} : '{s.definition}'".format(s=self)
+
+    def get_instrument(self):
+        return self._NAMED_INSTRUMENTS[self.definition]
