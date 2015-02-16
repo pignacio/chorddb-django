@@ -21,7 +21,7 @@ def render_tablature(tablature, chord_versions=None, debug=False):
         if line.type == 'chord':
             lip = LineInProgress()
             for chord_index, poschord in enumerate(line.data.chords):
-                chord_id = "{}:{}".format(line_index, chord_index)
+                chord_id = "{}_{}".format(line_index, chord_index)
                 container_id = "chord-{}".format(chord_id)
                 lip.write_at('', poschord.position)
                 version = chord_versions.get(poschord.chord, None)

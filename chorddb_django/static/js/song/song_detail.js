@@ -1,5 +1,5 @@
 /* jshint browser: true, jquery: true */
-/* global songUrl */
+/* global songUrl,selectedChordPadUrl,chordVersions */
 
 function leavePage(destination) {
   window.location = destination;
@@ -21,13 +21,54 @@ function clearSelectedChord() {
     $('.tab-chord').removeClass('tab-chord-selected');
 }
 
-function reloadTab() {
+function updateSelectedChord(chordId) {
+  clearSelectedChord();
+  var selected = $('#chord-' + chordId);
+  var chord = selected.attr('chord');
+  var versions = chordVersions[chord];
+  var fingering = selected.attr('fingering');
+  $('#selected-chord').load(selectedChordPadUrl + '?' + $.param({
+    chord: chord,
+    fingering: fingering,
+    total: versions.length,
+    index: versions.indexOf(fingering) + 1,
+    chord_id: selected.attr('chord-id'),
+  }), function() {
+    selected.addClass('tab-chord-selected');
+  });
+}
+
+function updateTab(chordId) {
   var url = window.location.pathname;
   var qstring = $('#form_capo_transpose').serialize();
+  qstring += '&' + $('#form_chord_versions :input[value]').serialize();
   url += '?' + qstring;
   window.location.hash = '#' + qstring;
-  $('#tab').load(url + ' #tab pre');
-  clearSelectedChord();
+  $('#tab').load(url + ' #tab pre', function() {
+    $('.tab-chord').click(function() {
+      updateSelectedChord($(this).attr('chord-id'));
+    });
+    updateSelectedChord(chordId);
+  });
+}
+
+function moveSelectedChord(chordId, interval) {
+  var selected = $('#chord-' + chordId);
+  var chord = selected.attr('chord');
+  var current = selected.attr('fingering');
+  var index = chordVersions[chord].indexOf(current);
+  var newIndex = (index + interval) % chordVersions[chord].length;
+  var newFingering = chordVersions[chord][newIndex];
+  $('#id_chord_version_' + chord).val(newFingering);
+  updateTab(chordId);
+}
+
+function selectedChordNext(chordId) {
+  moveSelectedChord(chordId, 1);
+}
+
+function selectedChordPrev(chordId) {
+  moveSelectedChord(chordId, -1);
 }
 
 $(document).ready(function() {
@@ -41,10 +82,6 @@ $(document).ready(function() {
     switchVersion();
   });
   $('.tab-chord').click(function() {
-    clearSelectedChord();
-    var selected = $(this);
-    $('#selected-chord').text(selected.attr('chord') + '(' +
-      selected.attr('fingering') +')');
-    selected.addClass('tab-chord-selected');
+    updateSelectedChord($(this).attr('chord-id'));
   });
 });

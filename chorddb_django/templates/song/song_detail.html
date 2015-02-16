@@ -16,6 +16,7 @@
   <div class="col-md-2 col-xs-4">
     Instrument: {% crispy instrument_select_form %}
     {% crispy capo_transpose_form %}
+    {% crispy chord_versions_form %}
     <div id="selected-chord"></div>
   </div>
 </div>
@@ -24,6 +25,8 @@
 {% block extra_js %}
 <script language="javascript">
 var songUrl = "{{ song.get_absolute_url }}";
+var selectedChordPadUrl = "{% url "song_selected_chord_pad" %}";
+var chordVersions = {{ chord_versions|safe }};
 </script>
 <script src="{% static "js/song/song_detail.js" %}"></script>
 {% endblock extra_js %}
