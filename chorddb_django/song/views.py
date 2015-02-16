@@ -52,12 +52,9 @@ class SongInstrumentRedirectView(RedirectView):
     pattern_name = 'song_songversion_detail'
 
     def get_redirect_url(self, *args, **kwargs):
-        print "get_red_url"
         song = get_object_or_404(Song, id=kwargs['song_id'])
-        print "song", song
         instrument = get_object_or_404(InstrumentModel,
                                        name=kwargs['instrument_name'])
-        print "instrument", instrument
         version, _created = song.songversion_set.get_or_create(
             instrument=instrument)
         return super(SongInstrumentRedirectView,
