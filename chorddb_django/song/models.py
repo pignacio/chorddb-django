@@ -21,6 +21,8 @@ class Song(models.Model):
 class SongVersion(models.Model):
     song = models.ForeignKey('Song')
     instrument = models.ForeignKey('InstrumentModel')
+    capo = models.PositiveIntegerField(default=0)
+    transpose = models.IntegerField(default=0)
 #      chord_versions = models.TextField() # Json or HStore
 #      special_chords = models.TextField() # Json or Array<HStore>
 

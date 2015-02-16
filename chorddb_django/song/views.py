@@ -46,27 +46,16 @@ class SongRedirectView(RedirectView):
                      self).get_redirect_url(*args, **kwargs)
 
 
-class SongInstrumentRedirectView(RedirectView):
-    permanent = False
-    query_string = True
-    pattern_name = 'song_songversion_detail'
-
-    def get_redirect_url(self, *args, **kwargs):
-        song = get_object_or_404(Song, id=kwargs['song_id'])
-        instrument = get_object_or_404(InstrumentModel,
-                                       name=kwargs['instrument_name'])
-        version, _created = song.songversion_set.get_or_create(
-            instrument=instrument)
-        return super(SongInstrumentRedirectView,
-                     self).get_redirect_url(version.id)
-
-
 class SongVersionDetailView(DetailView):
     model = SongVersion
     pk_url_kwarg = 'songversion_id'
     template_name = 'song/song_detail.html'
 
-    def get_context_data(self, **kwargs):
+    def _get_songversion_from_params(self, request, *args, **kwargs):
+        song = get_object_or_404(Song, id=kwargs['song_id'])
+        instrument = get_object_or_404(InstrumentModel,
+                                       name=kwargs['instrument_name'])
+
         form_data = {k : self.request.GET.get(k, v)
                      for k, v in CapoTransposeForm.EMPTY_DATA.items()}
         capo_transpose_form = CapoTransposeForm(form_data)
@@ -74,13 +63,50 @@ class SongVersionDetailView(DetailView):
                 if capo_transpose_form.is_valid()
                 else CapoTransposeForm.EMPTY_DATA)
 
+
+        version_args = dict(
+            song=song,
+            instrument=instrument,
+            capo=data['capo'],
+            transpose=data['transpose']
+        )
+        try:
+            version = SongVersion.objects.get(**version_args)
+        except SongVersion.DoesNotExist:
+            version = SongVersion(**version_args)
+        return version
+
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.pk_url_kwarg in kwargs:
+            version = self._get_songversion_from_params(request, *args,
+                                                        **kwargs)
+            if version.pk:
+                return redirect(version.get_absolute_url())
+            else:
+                self.__unsaved_version = version
+        else:
+            self.__unsaved_version = None
+
+        return super(SongVersionDetailView, self).dispatch(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        return (self.__unsaved_version if self.__unsaved_version
+                else super(SongVersionDetailView, self).get_object(queryset))
+
+    def get_context_data(self, **kwargs):
+
         lines = _render_tablature(self.object.song.tablature,
                                   self.object.instrument.get_instrument(),
-                                  data['capo'],
-                                  data['transpose'])
+                                  self.object.capo,
+                                  self.object.transpose,)
 
         form = InstrumentSelectForm(initial={
             'name': self.object.instrument.name,
+        })
+        capo_transpose_form = CapoTransposeForm(initial={
+            'capo': self.object.capo,
+            'transpose': self.object.transpose,
         })
 
         context = super(SongVersionDetailView, self).get_context_data(**kwargs)
