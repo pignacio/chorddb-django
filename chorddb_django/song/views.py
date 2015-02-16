@@ -128,7 +128,6 @@ class SongVersionDetailView(DetailView):
         for line in tablature.lines:
             if line.type == 'chord':
                 chords.update(pc.chord for pc in line.data.chords)
-
         request_versions = ChordVersionsForm(chords, self.request.GET).get_chord_versions()
 
         library = ChordLibrary(instrument)
@@ -172,4 +171,27 @@ class SelectedChordPadView(TemplateView):
             for k in ['chord', 'fingering', 'total', 'index', 'chord_id']
         })
         return data
+
+def update_song_version(request, song_id, instrument_name):
+    song = get_object_or_404(Song, id=song_id)
+    instrument = get_object_or_404(InstrumentModel, name=instrument_name)
+    capo = request.GET.get('capo', 0)
+    transpose = request.GET.get('transpose', 0)
+    songversion, _created = SongVersion.objects.get_or_create(
+        song=song,
+        instrument=instrument,
+        capo=capo,
+        transpose=transpose,
+    )
+    chords = set()
+    tablature = parse_tablature(song.tablature.splitlines())
+    for line in tablature.lines:
+        if line.type == 'chord':
+            chords.update(pc.chord for pc in line.data.chords)
+    versions = ChordVersionsForm(chords, request.GET).get_chord_versions()
+    songversion.chord_versions = {
+        c.text(): f for c, f in versions.items()
+    };
+    songversion.save()
+    return redirect(songversion.get_absolute_url())
 
