@@ -18,21 +18,24 @@ class SongListView(ListView):
     model = Song
 
 
-def _render_tablature(tablature, instrument, capo, transpose):
-    tab = parse_tablature(tablature.splitlines())
-    tab = transpose_tablature(tab, transpose)
-    instrument = instrument.capo(capo)
+def _render_tablature(songversion):
+    tablature = parse_tablature(songversion.song.tablature.splitlines())
+    instrument = songversion.instrument.get_instrument()
+    if songversion.transpose:
+        tablature = transpose_tablature(tablature, songversion.transpose)
+    if songversion.capo:
+        instrument = instrument.capo(songversion.capo)
     chords = set()
-    for line in tab.lines:
+    for line in tablature.lines:
         if line.type == 'chord':
             chords.update(pc.chord for pc in line.data.chords)
 
     library = ChordLibrary(instrument)
 
-    return render_tablature(tab, {
-        c: library.get(c) for c in chords
+    return render_tablature(tablature, {
+        c: songversion.chord_versions.get(c.text(), library.get(c))
+        for c in chords
     })
-
 
 
 class SongRedirectView(RedirectView):
@@ -95,11 +98,7 @@ class SongVersionDetailView(DetailView):
                 else super(SongVersionDetailView, self).get_object(queryset))
 
     def get_context_data(self, **kwargs):
-
-        lines = _render_tablature(self.object.song.tablature,
-                                  self.object.instrument.get_instrument(),
-                                  self.object.capo,
-                                  self.object.transpose,)
+        lines = _render_tablature(self.object)
 
         form = InstrumentSelectForm(initial={
             'name': self.object.instrument.name,
