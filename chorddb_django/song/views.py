@@ -9,6 +9,9 @@ from django.views.generic import (
 
 from chorddb.tab import parse_tablature, transpose_tablature
 from chorddb.chords.library import ChordLibrary
+from chorddb.curses.chord_drawer import draw_chord
+from chorddb.chords.finder import Fingering
+
 
 from .forms import (
     InstrumentSelectForm, SongForm, CapoTransposeForm, ChordVersionsForm)
@@ -164,13 +167,26 @@ class SongAddView(FormView):
 class SelectedChordPadView(TemplateView):
     template_name = 'song/layout/selected_chord_pad.html'
 
+    def _get_chord_lines(self):
+        instrument_name = self.request.GET.get('instrument', None)
+        try:
+            instrument_model = InstrumentModel.objects.get(name=instrument_name)
+        except InstrumentModel.DoesNotExist:
+            return []
+        instrument = instrument_model.get_instrument()
+        fingering = Fingering
+        draw_chord( )
+
     def get_context_data(self):
         data = super(SelectedChordPadView, self).get_context_data()
+
         data.update({
             k: self.request.GET.get(k, "???")
             for k in ['chord', 'fingering', 'total', 'index', 'chord_id']
         })
+        data['chord_lines'] = self._get_chord_lines()
         return data
+
 
 def update_song_version(request, song_id, instrument_name):
     song = get_object_or_404(Song, id=song_id)
@@ -191,7 +207,7 @@ def update_song_version(request, song_id, instrument_name):
     versions = ChordVersionsForm(chords, request.GET).get_chord_versions()
     songversion.chord_versions = {
         c.text(): f for c, f in versions.items()
-    };
+    }
     songversion.save()
     return redirect(songversion.get_absolute_url())
 
