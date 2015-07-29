@@ -19,6 +19,8 @@ class Song(models.Model):
     def get_absolute_url(self):
         return reverse('song:detail', kwargs={'song_id': self.id})
 
+    class Meta(object):
+        ordering = ('title',)
 
 class SongVersion(models.Model):
     song = models.ForeignKey('Song')
