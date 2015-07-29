@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
 from __future__ import absolute_import, unicode_literals
 
 import collections
@@ -5,7 +8,7 @@ import json
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import (
-    ListView, FormView, DetailView, TemplateView, RedirectView)
+    ListView, FormView, DetailView, TemplateView, RedirectView, CreateView)
 
 from chorddb.tab import parse_tablature, transpose_tablature
 from chorddb.chords.library import ChordLibrary
@@ -30,7 +33,7 @@ TablatureData = collections.namedtuple('TablatureData', ['lines', 'chord_version
 class SongRedirectView(RedirectView):
     permanent = False
     query_string = True
-    pattern_name = 'song_song_instrument_detail'
+    pattern_name = 'song:instrument_detail'
 
     def get_redirect_url(self, *args, **kwargs):
         kwargs['instrument_name'] = 'Mimi'
@@ -152,13 +155,10 @@ class SongVersionDetailView(DetailView):
                              chord_versions=library_versions)
 
 
-class SongAddView(FormView):
+class SongAddView(CreateView):
+    model = Song
     form_class = SongForm
-    template_name = "song/song_add.html"
-
-    def form_valid(self, form):
-        form.save()
-        return redirect('song_song_view', form.instance.id)
+    template_name_suffix = "_add"
 
 
 class SelectedChordPadView(TemplateView):

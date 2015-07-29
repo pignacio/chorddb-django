@@ -18,12 +18,11 @@ logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 urlpatterns = patterns(  # pylint: disable=invalid-name
     'song.views',
-    url(r'^/?$', HomeView.as_view(), name='song_home'),
-    url(r'^song/?$', SongListView.as_view(), name='song_song_list'),
-    url(r'^song/add/?$', SongAddView.as_view(), name='song_song_add'),
-    url(r'^song/(?P<song_id>\d+)/?$', SongRedirectView.as_view(), name='song_song_detail'),
-    url(r'^song/(?P<song_id>\d+)/(?P<instrument_name>\w+)/?$', SongVersionDetailView.as_view(), name='song_song_instrument_detail'),
-    url(r'^song/(?P<song_id>\d+)/(?P<instrument_name>\w+)/save/?$', 'update_song_version', name='song_song_instrument_save'),
-    url(r'^song/version/(?P<songversion_id>\d+)/?$', SongVersionDetailView.as_view(), name='song_songversion_detail'),
-    url(r'^layout/selected_chord_pad/?$', SelectedChordPadView.as_view(), name='song_selected_chord_pad'),
+    url(r'^$', SongListView.as_view(), name='list'),
+    url(r'^add$', SongAddView.as_view(), name='add'),
+    url(r'^(?P<song_id>\d+)$', SongRedirectView.as_view(), name='detail'),
+    url(r'^(?P<song_id>\d+)/(?P<instrument_name>\w+)$', SongVersionDetailView.as_view(), name='instrument_detail'),
+    url(r'^(?P<song_id>\d+)/(?P<instrument_name>\w+)/save$', 'update_song_version', name='instrument_save'),
+    url(r'^version/(?P<songversion_id>\d+)$', SongVersionDetailView.as_view(), name='songversion_detail'),
+    url(r'^selected_chord_pad$', SelectedChordPadView.as_view(), name='selected_chord_pad'),
 )

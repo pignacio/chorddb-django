@@ -5,9 +5,12 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+from song.views import HomeView
+
 urlpatterns = patterns(  # pylint: disable=invalid-name
     '',
-    url(r'^', include('song.urls')),
+    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^song/', include('song.urls', namespace='song')),
     url(r'^admin/', include(admin.site.urls)),
 )
 
