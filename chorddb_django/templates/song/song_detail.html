@@ -30,7 +30,7 @@
 {% block extra_js %}
 <script language="javascript">
 var songUrl = "{{ song.get_absolute_url }}";
-var selectedChordPadUrl = "{% url "song_selected_chord_pad" %}";
+var selectedChordPadUrl = "{% url "song:selected_chord_pad" %}";
 var chordVersions = {{ chord_versions|safe }};
 </script>
 <script src="{% static "js/song/song_detail.js" %}"></script>

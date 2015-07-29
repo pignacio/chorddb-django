@@ -17,7 +17,7 @@ class Song(models.Model):
         return "Song: {s.artist} - {s.title}".format(s=self)
 
     def get_absolute_url(self):
-        return reverse('song_song_detail', kwargs={'song_id': self.id})
+        return reverse('song:detail', kwargs={'song_id': self.id})
 
 
 class SongVersion(models.Model):
@@ -33,7 +33,7 @@ class SongVersion(models.Model):
             s=self)
 
     def get_absolute_url(self):
-        return reverse('song_songversion_detail',
+        return reverse('song:songversion_detail',
                        kwargs={'songversion_id': self.id})
 
 
