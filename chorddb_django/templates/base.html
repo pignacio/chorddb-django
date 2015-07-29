@@ -1,72 +1,84 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block title %}chorddb_django{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+<meta charset="utf-8">
+<title>{% block title %}chorddb{% endblock title %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
+<!-- Le styles -->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+<style>
+body {
+  padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- This file store project specific CSS -->
-    <link href="{% static 'css/chorddb_django.css' %}" rel="stylesheet">
+<!-- This file store project specific CSS -->
+<link href="{% static 'css/chorddb_django.css' %}" rel="stylesheet">
 
-    <!-- Use this to quickly test CSS changes in a template,
+<!-- Use this to quickly test CSS changes in a template,
         then move to chorddb_django.css -->
-    {% block extra_css %}{% endblock extra_css %}
-  </head>
+{% block extra_css %}{% endblock extra_css %}
+</head>
 
-  <body>
+<body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{% url 'home' %}">chorddb_django</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'home' %}">chorddb</a>
     </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+        <a href="{% url "home" %}">Home</a>
+        </li>
+        <li class="dropdown">
+        <a href="{% url "song:list" %}">
+          Songs
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="{% url "song:add" %}">Add song</a></li>
+        </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
 
-    <div class="container">
+<div class="container">
 
-      <h1>{% block page_title %}Example Base Template{% endblock page_title %}</h1>
+  <h1>{% block page_title %}Example Base Template{% endblock page_title %}</h1>
 
-      {% block content %}
-        <p>Use this document as a way to quick start any new project.</p>
-      {% endblock content %}
+  {% block content %}
+  <p>Use this document as a way to quick start any new project.</p>
+  {% endblock content %}
 
-    </div> <!-- /container -->
+</div> <!-- /container -->
 
-    <!-- Le javascript
+<!-- Le javascript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{% static 'js/jquery-1.11.2.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static 'js/jquery-1.11.2.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
-    <!-- place project specific Javascript in this file -->
-    <script src="{% static 'js/chorddb_django.js' %}"></script>
+<!-- place project specific Javascript in this file -->
+<script src="{% static 'js/chorddb_django.js' %}"></script>
 
-    {% block extra_js %}{% endblock extra_js %}
-  </body>
+{% block extra_js %}{% endblock extra_js %}
+</body>
 </html>
