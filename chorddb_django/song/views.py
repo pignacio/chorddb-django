@@ -7,8 +7,8 @@ import collections
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import (
-    ListView, FormView, DetailView, TemplateView, RedirectView, CreateView)
+from django.views.generic import (ListView, FormView, DetailView, TemplateView,
+                                  RedirectView, CreateView, UpdateView)
 
 from chorddb.tab import parse_tablature, transpose_tablature
 from chorddb.chords.library import ChordLibrary
@@ -159,6 +159,13 @@ class SongAddView(CreateView):
     model = Song
     form_class = SongForm
     template_name_suffix = "_add"
+
+
+class SongUpdateView(UpdateView):
+    model = Song
+    form_class = SongForm
+    pk_url_kwarg = 'song_id'
+    template_name_suffix = "_update"
 
 
 class SelectedChordPadView(TemplateView):
