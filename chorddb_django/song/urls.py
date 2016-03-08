@@ -9,7 +9,7 @@ from django.conf.urls import patterns, url
 
 from .views import (
     SongListView, SongAddView, SongVersionDetailView, SongRedirectView,
-    HomeView, SelectedChordPadView
+    HomeView, SelectedChordPadView, SongUpdateView
 )
 
 
@@ -20,6 +20,7 @@ urlpatterns = patterns(  # pylint: disable=invalid-name
     'song.views',
     url(r'^$', SongListView.as_view(), name='list'),
     url(r'^add$', SongAddView.as_view(), name='add'),
+    url(r'^edit/(?P<song_id>\d+)$', SongUpdateView.as_view(), name='update'),
     url(r'^(?P<song_id>\d+)$', SongRedirectView.as_view(), name='detail'),
     url(r'^(?P<song_id>\d+)/(?P<instrument_name>\w+)$', SongVersionDetailView.as_view(), name='instrument_detail'),
     url(r'^(?P<song_id>\d+)/(?P<instrument_name>\w+)/save$', 'update_song_version', name='instrument_save'),
