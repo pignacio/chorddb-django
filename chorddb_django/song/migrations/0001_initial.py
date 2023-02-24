@@ -31,8 +31,8 @@ class Migration(migrations.Migration):
             name='SongVersion',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('instrument', models.ForeignKey(to='song.InstrumentModel')),
-                ('song', models.ForeignKey(to='song.Song')),
+                ('instrument', models.ForeignKey(to='song.InstrumentModel', on_delete=models.CASCADE)),
+                ('song', models.ForeignKey(to='song.Song', on_delete=models.CASCADE)),
             ],
         ),
     ]

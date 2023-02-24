@@ -5,7 +5,7 @@
 
 import logging
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 import floppyforms.__future__ as forms
 from crispy_forms.helper import FormHelper

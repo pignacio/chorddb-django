@@ -1,9 +1,7 @@
 
 
 from django.db import models
-from django.core.urlresolvers import reverse
-
-from jsonfield import JSONField
+from django.urls import reverse
 
 from chorddb.instrument import GUITAR, LOOG, UKELELE
 
@@ -21,11 +19,11 @@ class Song(models.Model):
 
 
 class SongVersion(models.Model):
-    song = models.ForeignKey('Song')
-    instrument = models.ForeignKey('InstrumentModel')
+    song = models.ForeignKey('Song', on_delete=models.CASCADE)
+    instrument = models.ForeignKey('InstrumentModel', on_delete=models.CASCADE)
     capo = models.PositiveIntegerField(default=0)
     transpose = models.IntegerField(default=0)
-    chord_versions = JSONField(default={}) # Json or HStore
+    chord_versions = models.JSONField(default={}) # Json or HStore
 #      special_chords = models.TextField() # Json or Array<HStore>
 
     def __unicode__(self):
