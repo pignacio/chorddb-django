@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'chorddb_django'
-copyright = u'2014, ChangeMyName'
+project = 'chorddb_django'
+copyright = '2014, ChangeMyName'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -183,8 +183,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'chorddb_django.tex', u'chorddb_django Documentation',
-   u'ChangeToMyName', 'manual'),
+  ('index', 'chorddb_django.tex', 'chorddb_django Documentation',
+   'ChangeToMyName', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -213,8 +213,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'chorddb_django', u'chorddb_django Documentation',
-     [u'ChangeToMyName'], 1)
+    ('index', 'chorddb_django', 'chorddb_django Documentation',
+     ['ChangeToMyName'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -227,8 +227,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'chorddb_django', u'chorddb_django Documentation',
-   u'ChangeToMyName', 'chorddb_django', 'One line description of project.',
+  ('index', 'chorddb_django', 'chorddb_django Documentation',
+   'ChangeToMyName', 'chorddb_django', 'One line description of project.',
    'Miscellaneous'),
 ]
 

@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
 
-from StringIO import StringIO
+
+from io import StringIO
 import collections
 import logging
 

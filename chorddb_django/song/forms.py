@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import absolute_import, unicode_literals
+
 
 import logging
 
@@ -34,10 +34,10 @@ class InstrumentSelectForm(forms.Form):
 
 class CapoTransposeForm(forms.Form):
     capo = forms.TypedChoiceField(
-        choices=[(n, "{}".format(n)) for n in xrange(13)],
+        choices=[(n, "{}".format(n)) for n in range(13)],
         coerce=int, empty_value=0, required=False, initial=0)
     transpose = forms.TypedChoiceField(
-        choices=[(n, "{}".format(n)) for n in xrange(-12, 13)],
+        choices=[(n, "{}".format(n)) for n in range(-12, 13)],
         coerce=int, empty_value=0, required=False, initial=0)
 
     EMPTY_DATA = {
@@ -116,7 +116,7 @@ class ChordVersionsForm(forms.Form):
         values = {
             c: self.cleaned_data[self.field_id(c)] for c in self._chords
         }
-        return {k: v for k, v in values.items() if v}
+        return {k: v for k, v in list(values.items()) if v}
 
 
 
